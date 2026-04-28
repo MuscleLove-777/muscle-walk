@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#1B4332">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="筋肉ウォーク">
+<title>筋肉ウォーク〜ジャンクフード撃滅〜 / Muscle Walk - MuscleLove</title>
+<meta name="description" content="歩いた歩数で筋肉女がジャンクフードをぶっ飛ばす！スマホで動くPWA歩数ゲーム。Walk to power your muscle girl and smash junk food! A PWA pedometer game by MuscleLove.">
+<meta property="og:title" content="筋肉ウォーク〜ジャンクフード撃滅〜">
+<meta property="og:description" content="歩けば歩くほど筋肉女がジャンクフードをぶっ飛ばす！">
+<meta property="og:image" content="og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">💪<span>筋肉ウォーク</span></div>
+  <button id="resetBtn" class="icon-btn" aria-label="今日の歩数をリセット" title="今日の歩数をリセット">↺</button>
+</header>
+
+<main class="game">
+
+  <section class="hud">
+    <div class="hud-cell">
+      <div class="hud-label">今日の歩数 / Today</div>
+      <div class="hud-value" id="todaySteps">0</div>
+    </div>
+    <div class="hud-cell">
+      <div class="hud-label">撃破数 / KO</div>
+      <div class="hud-value" id="koCount">0</div>
+    </div>
+    <div class="hud-cell">
+      <div class="hud-label">コンボ / Combo</div>
+      <div class="hud-value" id="comboCount">x1</div>
+    </div>
+  </section>
+
+  <section class="stage">
+    <canvas id="stage" width="720" height="540"></canvas>
+    <div class="combo-flash" id="comboFlash"></div>
+  </section>
+
+  <section class="controls">
+    <button id="startBtn" class="primary-btn">▶ START / 歩数センサー開始</button>
+    <div class="control-row">
+      <button id="punchBtn" class="punch-btn">👊 +1歩 (PUNCH)</button>
+      <button id="burst10" class="aux-btn">+10歩</button>
+      <button id="burst100" class="aux-btn">+100歩 (デバッグ)</button>
+    </div>
+    <p class="hint">📱 スマホ：STARTを押すと歩いた分パンチが飛ぶ。<br>💻 PC：スペースキー or +1歩ボタンで遊べる。</p>
+  </section>
+
+  <section class="stats">
+    <div class="stat-row">
+      <span>累計歩数 / Total steps</span><b id="totalSteps">0</b>
+    </div>
+    <div class="stat-row">
+      <span>累計撃破 / Total KO</span><b id="totalKo">0</b>
+    </div>
+    <div class="stat-row">
+      <span>本日の最大コンボ / Best combo</span><b id="bestCombo">0</b>
+    </div>
+  </section>
+
+  <section class="howto">
+    <details>
+      <summary>遊び方 / How to play</summary>
+      <ol>
+        <li>STARTを押してスマホを持って歩く。1歩=1パンチ、10歩で1撃破。<br><span class="en">Tap START and walk. 1 step = 1 punch, 10 steps = 1 KO.</span></li>
+        <li>連続して歩くとコンボUP、撃破効率UP。<br><span class="en">Keep moving to chain combos and boost KO rate.</span></li>
+        <li>累計歩数とKOはlocalStorageに保存。明日も続きから。<br><span class="en">Steps & KOs are saved locally.</span></li>
+        <li>iOS Safariは初回STARTでセンサー許可ダイアログが出る。<br><span class="en">iOS asks for motion permission on first START.</span></li>
+      </ol>
+    </details>
+  </section>
+
+  <section class="promo-musclelove">
+    <div class="promo-card">
+      <div class="promo-icon">💪</div>
+      <div class="promo-body">
+        <div class="promo-eyebrow">PR · 運営メディア / Sponsored</div>
+        <h3>MuscleLove — Muscle Girls &amp; Fitness Media Hub</h3>
+        <p>格闘女子・フィジーク・アームレスリング・筋トレ飯など、40+サイトを展開するMuscleLoveも運営中。X &amp; Patreonで限定コンテンツ配信中 / We also run MuscleLove, a 40+ site fitness network.</p>
+      </div>
+      <div class="promo-cta">
+        <a class="btn-promo" href="https://x.com/MuscleGirlLove7" target="_blank" rel="noopener">X @MuscleGirlLove7</a>
+        <a class="btn-promo outline" href="https://www.patreon.com/cw/MuscleLove" target="_blank" rel="noopener">Patreon</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>&copy; MuscleLove · 筋肉ウォーク v1.0</p>
+</footer>
+
+<script src="game.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>
